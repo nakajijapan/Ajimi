@@ -1,0 +1,552 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B08117C01F23B87B00667CD9 /* UIImage+Ajimi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08117BF1F23B87B00667CD9 /* UIImage+Ajimi.swift */; };
+		B08117C31F247DB800667CD9 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08117C21F247DB800667CD9 /* RecordButton.swift */; };
+		B0C434061F1E64AD00E5CEE2 /* Ajimi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C433FC1F1E64AD00E5CEE2 /* Ajimi.framework */; };
+		B0C4340B1F1E64AD00E5CEE2 /* AjimiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C4340A1F1E64AD00E5CEE2 /* AjimiTests.swift */; };
+		B0C4340D1F1E64AD00E5CEE2 /* Ajimi.h in Headers */ = {isa = PBXBuildFile; fileRef = B0C433FF1F1E64AD00E5CEE2 /* Ajimi.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0C4344C1F1E672E00E5CEE2 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C4343F1F1E672E00E5CEE2 /* Device.swift */; };
+		B0C4344D1F1E672E00E5CEE2 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434401F1E672E00E5CEE2 /* Error.swift */; };
+		B0C4344E1F1E672E00E5CEE2 /* ImageEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434411F1E672E00E5CEE2 /* ImageEditViewController.swift */; };
+		B0C4344F1F1E672E00E5CEE2 /* Ajimi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434421F1E672E00E5CEE2 /* Ajimi.swift */; };
+		B0C434501F1E672E00E5CEE2 /* PostGIFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434431F1E672E00E5CEE2 /* PostGIFViewController.swift */; };
+		B0C434511F1E672E00E5CEE2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434441F1E672E00E5CEE2 /* PostViewController.swift */; };
+		B0C434521F1E672E00E5CEE2 /* Reporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434451F1E672E00E5CEE2 /* Reporter.swift */; };
+		B0C434531F1E672E00E5CEE2 /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434461F1E672E00E5CEE2 /* ScreenRecorder.swift */; };
+		B0C434541F1E672E00E5CEE2 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434471F1E672E00E5CEE2 /* TopViewController.swift */; };
+		B0C434551F1E672E00E5CEE2 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434481F1E672E00E5CEE2 /* Window.swift */; };
+		B0C434561F1E672E00E5CEE2 /* ImageUploder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C434491F1E672E00E5CEE2 /* ImageUploder.swift */; };
+		B0C434571F1E672E00E5CEE2 /* RectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C4344A1F1E672E00E5CEE2 /* RectangleView.swift */; };
+		B0C434581F1E672E00E5CEE2 /* String+Ajimi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C4344B1F1E672E00E5CEE2 /* String+Ajimi.swift */; };
+		B0C434631F1E727100E5CEE2 /* camera@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C434611F1E727100E5CEE2 /* camera@3x.png */; };
+		B0C434641F1E727100E5CEE2 /* video@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C434621F1E727100E5CEE2 /* video@3x.png */; };
+		B0C434671F1E734300E5CEE2 /* video.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C434651F1E734300E5CEE2 /* video.png */; };
+		B0C4346C1F1E736F00E5CEE2 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C434691F1E736F00E5CEE2 /* camera.png */; };
+		B0C4346D1F1E736F00E5CEE2 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C4346A1F1E736F00E5CEE2 /* camera@2x.png */; };
+		B0C4346E1F1E736F00E5CEE2 /* video@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C4346B1F1E736F00E5CEE2 /* video@2x.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B0C434071F1E64AD00E5CEE2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B0C433F31F1E64AD00E5CEE2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B0C433FB1F1E64AD00E5CEE2;
+			remoteInfo = Ajimi;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B08117BF1F23B87B00667CD9 /* UIImage+Ajimi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Ajimi.swift"; sourceTree = "<group>"; };
+		B08117C21F247DB800667CD9 /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		B0C433FC1F1E64AD00E5CEE2 /* Ajimi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ajimi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0C433FF1F1E64AD00E5CEE2 /* Ajimi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ajimi.h; sourceTree = "<group>"; };
+		B0C434001F1E64AD00E5CEE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0C434051F1E64AD00E5CEE2 /* AjimiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AjimiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0C4340A1F1E64AD00E5CEE2 /* AjimiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AjimiTests.swift; sourceTree = "<group>"; };
+		B0C4340C1F1E64AD00E5CEE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0C4343F1F1E672E00E5CEE2 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		B0C434401F1E672E00E5CEE2 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		B0C434411F1E672E00E5CEE2 /* ImageEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageEditViewController.swift; sourceTree = "<group>"; };
+		B0C434421F1E672E00E5CEE2 /* Ajimi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ajimi.swift; sourceTree = "<group>"; };
+		B0C434431F1E672E00E5CEE2 /* PostGIFViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostGIFViewController.swift; sourceTree = "<group>"; };
+		B0C434441F1E672E00E5CEE2 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		B0C434451F1E672E00E5CEE2 /* Reporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reporter.swift; sourceTree = "<group>"; };
+		B0C434461F1E672E00E5CEE2 /* ScreenRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenRecorder.swift; sourceTree = "<group>"; };
+		B0C434471F1E672E00E5CEE2 /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
+		B0C434481F1E672E00E5CEE2 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		B0C434491F1E672E00E5CEE2 /* ImageUploder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUploder.swift; sourceTree = "<group>"; };
+		B0C4344A1F1E672E00E5CEE2 /* RectangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectangleView.swift; sourceTree = "<group>"; };
+		B0C4344B1F1E672E00E5CEE2 /* String+Ajimi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Ajimi.swift"; sourceTree = "<group>"; };
+		B0C434611F1E727100E5CEE2 /* camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@3x.png"; sourceTree = "<group>"; };
+		B0C434621F1E727100E5CEE2 /* video@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video@3x.png"; sourceTree = "<group>"; };
+		B0C434651F1E734300E5CEE2 /* video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video.png; sourceTree = "<group>"; };
+		B0C434691F1E736F00E5CEE2 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		B0C4346A1F1E736F00E5CEE2 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
+		B0C4346B1F1E736F00E5CEE2 /* video@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video@2x.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B0C433F81F1E64AD00E5CEE2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0C434021F1E64AD00E5CEE2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0C434061F1E64AD00E5CEE2 /* Ajimi.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B0C433F21F1E64AD00E5CEE2 = {
+			isa = PBXGroup;
+			children = (
+				B0C4343C1F1E66AB00E5CEE2 /* Source */,
+				B0C433FE1F1E64AD00E5CEE2 /* Ajimi */,
+				B0C434091F1E64AD00E5CEE2 /* AjimiTests */,
+				B0C433FD1F1E64AD00E5CEE2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B0C433FD1F1E64AD00E5CEE2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B0C433FC1F1E64AD00E5CEE2 /* Ajimi.framework */,
+				B0C434051F1E64AD00E5CEE2 /* AjimiTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B0C433FE1F1E64AD00E5CEE2 /* Ajimi */ = {
+			isa = PBXGroup;
+			children = (
+				B0C433FF1F1E64AD00E5CEE2 /* Ajimi.h */,
+				B0C434001F1E64AD00E5CEE2 /* Info.plist */,
+			);
+			path = Ajimi;
+			sourceTree = "<group>";
+		};
+		B0C434091F1E64AD00E5CEE2 /* AjimiTests */ = {
+			isa = PBXGroup;
+			children = (
+				B0C4340A1F1E64AD00E5CEE2 /* AjimiTests.swift */,
+				B0C4340C1F1E64AD00E5CEE2 /* Info.plist */,
+			);
+			path = AjimiTests;
+			sourceTree = "<group>";
+		};
+		B0C4343C1F1E66AB00E5CEE2 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				B0C4343D1F1E66AB00E5CEE2 /* Assets */,
+				B0C4343E1F1E66AB00E5CEE2 /* Classes */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		B0C4343D1F1E66AB00E5CEE2 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				B0C434611F1E727100E5CEE2 /* camera@3x.png */,
+				B0C434691F1E736F00E5CEE2 /* camera.png */,
+				B0C4346A1F1E736F00E5CEE2 /* camera@2x.png */,
+				B0C4346B1F1E736F00E5CEE2 /* video@2x.png */,
+				B0C434621F1E727100E5CEE2 /* video@3x.png */,
+				B0C434651F1E734300E5CEE2 /* video.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		B0C4343E1F1E66AB00E5CEE2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B0C4343F1F1E672E00E5CEE2 /* Device.swift */,
+				B0C434401F1E672E00E5CEE2 /* Error.swift */,
+				B0C434421F1E672E00E5CEE2 /* Ajimi.swift */,
+				B0C434411F1E672E00E5CEE2 /* ImageEditViewController.swift */,
+				B0C434441F1E672E00E5CEE2 /* PostViewController.swift */,
+				B0C434431F1E672E00E5CEE2 /* PostGIFViewController.swift */,
+				B0C434451F1E672E00E5CEE2 /* Reporter.swift */,
+				B0C434461F1E672E00E5CEE2 /* ScreenRecorder.swift */,
+				B0C434471F1E672E00E5CEE2 /* TopViewController.swift */,
+				B0C434481F1E672E00E5CEE2 /* Window.swift */,
+				B08117C21F247DB800667CD9 /* RecordButton.swift */,
+				B0C434491F1E672E00E5CEE2 /* ImageUploder.swift */,
+				B0C4344A1F1E672E00E5CEE2 /* RectangleView.swift */,
+				B0C4344B1F1E672E00E5CEE2 /* String+Ajimi.swift */,
+				B08117BF1F23B87B00667CD9 /* UIImage+Ajimi.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B0C433F91F1E64AD00E5CEE2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0C4340D1F1E64AD00E5CEE2 /* Ajimi.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		B0C433FB1F1E64AD00E5CEE2 /* Ajimi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0C434101F1E64AD00E5CEE2 /* Build configuration list for PBXNativeTarget "Ajimi" */;
+			buildPhases = (
+				B0C433F71F1E64AD00E5CEE2 /* Sources */,
+				B0C433F81F1E64AD00E5CEE2 /* Frameworks */,
+				B0C433F91F1E64AD00E5CEE2 /* Headers */,
+				B0C433FA1F1E64AD00E5CEE2 /* Resources */,
+				B08117C11F23B9F400667CD9 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Ajimi;
+			productName = Ajimi;
+			productReference = B0C433FC1F1E64AD00E5CEE2 /* Ajimi.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B0C434041F1E64AD00E5CEE2 /* AjimiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0C434131F1E64AD00E5CEE2 /* Build configuration list for PBXNativeTarget "AjimiTests" */;
+			buildPhases = (
+				B0C434011F1E64AD00E5CEE2 /* Sources */,
+				B0C434021F1E64AD00E5CEE2 /* Frameworks */,
+				B0C434031F1E64AD00E5CEE2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B0C434081F1E64AD00E5CEE2 /* PBXTargetDependency */,
+			);
+			name = AjimiTests;
+			productName = AjimiTests;
+			productReference = B0C434051F1E64AD00E5CEE2 /* AjimiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B0C433F31F1E64AD00E5CEE2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = nakajijapan;
+				TargetAttributes = {
+					B0C433FB1F1E64AD00E5CEE2 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = CNE5C4C374;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
+					};
+					B0C434041F1E64AD00E5CEE2 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = CNE5C4C374;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = B0C433F61F1E64AD00E5CEE2 /* Build configuration list for PBXProject "Ajimi" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B0C433F21F1E64AD00E5CEE2;
+			productRefGroup = B0C433FD1F1E64AD00E5CEE2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B0C433FB1F1E64AD00E5CEE2 /* Ajimi */,
+				B0C434041F1E64AD00E5CEE2 /* AjimiTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B0C433FA1F1E64AD00E5CEE2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0C434631F1E727100E5CEE2 /* camera@3x.png in Resources */,
+				B0C4346D1F1E736F00E5CEE2 /* camera@2x.png in Resources */,
+				B0C4346E1F1E736F00E5CEE2 /* video@2x.png in Resources */,
+				B0C434671F1E734300E5CEE2 /* video.png in Resources */,
+				B0C4346C1F1E736F00E5CEE2 /* camera.png in Resources */,
+				B0C434641F1E727100E5CEE2 /* video@3x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0C434031F1E64AD00E5CEE2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B08117C11F23B9F400667CD9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B0C433F71F1E64AD00E5CEE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0C434511F1E672E00E5CEE2 /* PostViewController.swift in Sources */,
+				B0C434561F1E672E00E5CEE2 /* ImageUploder.swift in Sources */,
+				B0C434571F1E672E00E5CEE2 /* RectangleView.swift in Sources */,
+				B0C4344D1F1E672E00E5CEE2 /* Error.swift in Sources */,
+				B0C434531F1E672E00E5CEE2 /* ScreenRecorder.swift in Sources */,
+				B0C4344C1F1E672E00E5CEE2 /* Device.swift in Sources */,
+				B0C434501F1E672E00E5CEE2 /* PostGIFViewController.swift in Sources */,
+				B0C434581F1E672E00E5CEE2 /* String+Ajimi.swift in Sources */,
+				B08117C01F23B87B00667CD9 /* UIImage+Ajimi.swift in Sources */,
+				B0C434521F1E672E00E5CEE2 /* Reporter.swift in Sources */,
+				B0C4344E1F1E672E00E5CEE2 /* ImageEditViewController.swift in Sources */,
+				B0C434541F1E672E00E5CEE2 /* TopViewController.swift in Sources */,
+				B0C434551F1E672E00E5CEE2 /* Window.swift in Sources */,
+				B0C4344F1F1E672E00E5CEE2 /* Ajimi.swift in Sources */,
+				B08117C31F247DB800667CD9 /* RecordButton.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0C434011F1E64AD00E5CEE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0C4340B1F1E64AD00E5CEE2 /* AjimiTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B0C434081F1E64AD00E5CEE2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B0C433FB1F1E64AD00E5CEE2 /* Ajimi */;
+			targetProxy = B0C434071F1E64AD00E5CEE2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B0C4340E1F1E64AD00E5CEE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B0C4340F1F1E64AD00E5CEE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B0C434111F1E64AD00E5CEE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = CNE5C4C374;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Ajimi/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nakajijapan.net.Ajimi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		B0C434121F1E64AD00E5CEE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = CNE5C4C374;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Ajimi/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nakajijapan.net.Ajimi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		B0C434141F1E64AD00E5CEE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = CNE5C4C374;
+				INFOPLIST_FILE = AjimiTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nakajijapan.net.AjimiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		B0C434151F1E64AD00E5CEE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = CNE5C4C374;
+				INFOPLIST_FILE = AjimiTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nakajijapan.net.AjimiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B0C433F61F1E64AD00E5CEE2 /* Build configuration list for PBXProject "Ajimi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0C4340E1F1E64AD00E5CEE2 /* Debug */,
+				B0C4340F1F1E64AD00E5CEE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0C434101F1E64AD00E5CEE2 /* Build configuration list for PBXNativeTarget "Ajimi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0C434111F1E64AD00E5CEE2 /* Debug */,
+				B0C434121F1E64AD00E5CEE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0C434131F1E64AD00E5CEE2 /* Build configuration list for PBXNativeTarget "AjimiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0C434141F1E64AD00E5CEE2 /* Debug */,
+				B0C434151F1E64AD00E5CEE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B0C433F31F1E64AD00E5CEE2 /* Project object */;
+}
