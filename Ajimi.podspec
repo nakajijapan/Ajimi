@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Ajimi"
-  s.version          = "0.10.1"
+  s.version          = "0.10.2"
   s.summary          = "Ajimi means tasting. In Japanese, 味見. Ajimi is the feedback tool, which anyone can easily feedback to project team any time."
   s.homepage         = "https://github.com/nakajijapan/Ajimi"
   s.license          = 'MIT'
