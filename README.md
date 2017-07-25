@@ -8,7 +8,7 @@
 
 
 Ajimi means tasting. In Japanese, 味見.
-Ajimi is the feedback tool, which anyone can easily feedback a report any time.
+Ajimi is the feedback tool, which anyone can easily feedback to project team any time.
 
 ## Requirements
 
