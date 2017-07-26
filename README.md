@@ -10,6 +10,10 @@
 Ajimi means tasting. In Japanese, 味見.
 Ajimi is the feedback tool, which anyone can easily feedback to project team any time.
 
+Snapshot | Video
+---- | ----
+![](demo_snapshot.gif) | ![](demo_video.gif)
+
 ## Requirements
 
 - Xcode 8+
