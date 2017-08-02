@@ -23,16 +23,11 @@ class ScreenRecorder {
         }
     }
     private var displayLink: CADisplayLink!
-    private var keyWindow: UIWindow!
+    private var keyWindow = Ajimi.targetWindow
     var recordTime: CFTimeInterval = 5.0
     var images: [UIImage] = []
-    weak var delegate: ScreenRecorderDelegate?
-
-    init() {
-        setUp()
-    }
-
     var startTime: CFTimeInterval = 0.0
+    weak var delegate: ScreenRecorderDelegate?
 
     public func startRecording() {
         if !isRecording {
@@ -50,15 +45,7 @@ class ScreenRecorder {
         }
     }
 
-    func setUp() {
-        guard let keyWindow = UIApplication.shared.keyWindow else {
-            fatalError("no window")
-        }
-        self.keyWindow = keyWindow
-    }
-
     @objc func displayDidRefresh(_ sender: CADisplayLink) {
-
         UIGraphicsBeginImageContextWithOptions(keyWindow.bounds.size, true, 0)
         keyWindow.drawHierarchy(in: keyWindow.bounds, afterScreenUpdates: false)
         let image = UIGraphicsGetImageFromCurrentImageContext()

@@ -96,12 +96,8 @@ extension Window {
     }
 
     private func takePhoto() -> UIImage? {
-
-        let windows = UIApplication.shared.windows.filter { !($0 is Window) }
-        guard let window = windows.first else { fatalError("invalid window") }
-
+        let window = Ajimi.targetWindow
         UIGraphicsBeginImageContext(window.bounds.size)
-
         window.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

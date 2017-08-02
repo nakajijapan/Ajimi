@@ -29,9 +29,8 @@ extension PostViewControllerProtocol where Self: UIViewController {
     }
 
     func reportIssue(imageData: Data) {
-        let windows = UIApplication.shared.windows.filter { $0 is Window }
-        guard let window = windows.first as? Window else { fatalError("invalid window") }
 
+        let window = Ajimi.window
         let reporter = Reporter(options: window.options)
         let title = textField.text ?? ""
         let body = textView.text ?? ""
