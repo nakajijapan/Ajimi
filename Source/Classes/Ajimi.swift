@@ -39,6 +39,18 @@ public class Ajimi: NSObject {
 
     fileprivate static var AssocKeyWindow: UInt8 = 0
 
+    class var targetWindow: UIWindow {
+        let windows = UIApplication.shared.windows.filter { !($0 is Window) }
+        guard let window = windows.first else { fatalError("invalid window") }
+        return window
+    }
+
+    class var window: Window {
+        let windows = UIApplication.shared.windows.filter { $0 is Window }
+        guard let window = windows.first as? Window else { fatalError("invalid window") }
+        return window
+    }
+
     public class func show(_ options: AjimiOptions) {
         let application = UIApplication.shared
         if objc_getAssociatedObject(application, &Ajimi.AssocKeyWindow) == nil {
