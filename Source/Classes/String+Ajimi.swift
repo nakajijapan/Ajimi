@@ -1,5 +1,5 @@
 //
-//  String+.swift
+//  String+Ajimi.swift
 //  Ajimi
 //
 //  Created by nakajijapan on 2017/07/16.
@@ -10,8 +10,7 @@ import Foundation
 
 extension String {
     var base64: String {
-        let userPasswordData = data(using: String.Encoding.utf8)
-        let base64EncodedCredential = userPasswordData?.base64EncodedString()
-        return base64EncodedCredential!
+        guard let data = data(using: .utf8) else { return "" }
+        return data.base64EncodedString()
     }
 }

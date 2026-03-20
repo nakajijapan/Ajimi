@@ -8,10 +8,10 @@
 
 import UIKit
 
-class RectangleView: UIView {
+final class RectangleView: UIView {
 
     let lengthOfTouchSide: CGFloat = 20.0
-    let merginOfRectangle: CGFloat = 10
+    let marginOfRectangle: CGFloat = 10
     var rectangleLayer = CAShapeLayer()
 
     enum TransformArea: Int {
@@ -21,7 +21,7 @@ class RectangleView: UIView {
         case leftBottom
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -33,86 +33,57 @@ class RectangleView: UIView {
 
         backgroundColor = .clear
 
-        self.addSubview(leftTopView)
-        self.addSubview(rightTopView)
-
-        self.addSubview(leftBottomView)
-        self.addSubview(rightBottomView)
+        addSubview(leftTopView)
+        addSubview(rightTopView)
+        addSubview(leftBottomView)
+        addSubview(rightBottomView)
     }
 
-    lazy var leftTopView: UIView = {
-        let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.lengthOfTouchSide, height: self.lengthOfTouchSide))
+    private lazy var leftTopView: UIView = {
+        makeCornerView(
+            frame: CGRect(x: 0, y: 0, width: lengthOfTouchSide, height: lengthOfTouchSide),
+            tag: TransformArea.leftTop.rawValue
+        )
+    }()
+
+    private lazy var rightTopView: UIView = {
+        makeCornerView(
+            frame: CGRect(x: frame.width - lengthOfTouchSide, y: 0, width: lengthOfTouchSide, height: lengthOfTouchSide),
+            tag: TransformArea.rightTop.rawValue
+        )
+    }()
+
+    private lazy var rightBottomView: UIView = {
+        makeCornerView(
+            frame: CGRect(x: 0, y: frame.height - lengthOfTouchSide, width: lengthOfTouchSide, height: lengthOfTouchSide),
+            tag: TransformArea.rightBottom.rawValue
+        )
+    }()
+
+    private lazy var leftBottomView: UIView = {
+        makeCornerView(
+            frame: CGRect(x: frame.width - lengthOfTouchSide, y: frame.height - lengthOfTouchSide, width: lengthOfTouchSide, height: lengthOfTouchSide),
+            tag: TransformArea.leftBottom.rawValue
+        )
+    }()
+
+    private func makeCornerView(frame: CGRect, tag: Int) -> UIView {
+        let view = UIView(frame: frame)
         view.backgroundColor = .clear
-        view.tag = TransformArea.leftTop.rawValue
+        view.tag = tag
 
         let circleLayer = CAShapeLayer()
-        let radius: CGFloat = 10.0
-        circleLayer.path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: view.frame.size), cornerRadius: radius).cgPath
-        circleLayer.position = CGPoint(x: 0, y: 0)
+        circleLayer.path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: frame.size), cornerRadius: 10.0).cgPath
         circleLayer.fillColor = UIColor.blue.cgColor
         view.layer.addSublayer(circleLayer)
 
-        let recongnizer = UIPanGestureRecognizer(target: self, action: #selector(handleTransformMovePanGesture(_:)))
-        view.addGestureRecognizer(recongnizer)
+        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handleTransformMovePanGesture(_:)))
+        view.addGestureRecognizer(recognizer)
 
         return view
-    }()
-    lazy var rightTopView: UIView = {
-        let view = UIView(frame: CGRect(x: self.frame.width - self.lengthOfTouchSide, y: 0.0, width: self.lengthOfTouchSide, height: self.lengthOfTouchSide))
-        view.backgroundColor = .clear
-        view.tag = TransformArea.rightTop.rawValue
+    }
 
-        let circleLayer = CAShapeLayer()
-        let radius: CGFloat = 10.0
-        circleLayer.path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: view.frame.size), cornerRadius: radius).cgPath
-        circleLayer.position = CGPoint(x: 0, y: 0)
-        circleLayer.fillColor = UIColor.blue.cgColor
-        view.layer.addSublayer(circleLayer)
-
-        let recongnizer = UIPanGestureRecognizer(target: self, action: #selector(handleTransformMovePanGesture(_:)))
-        view.addGestureRecognizer(recongnizer)
-
-        return view
-    }()
-
-    lazy var rightBottomView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: self.frame.height - self.lengthOfTouchSide, width: self.lengthOfTouchSide, height: self.lengthOfTouchSide))
-        view.backgroundColor = .clear
-        view.tag = TransformArea.rightBottom.rawValue
-
-        let circleLayer = CAShapeLayer()
-        let radius: CGFloat = 10.0
-        circleLayer.path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: view.frame.size), cornerRadius: radius).cgPath
-        circleLayer.position = CGPoint(x: 0, y: 0)
-        circleLayer.fillColor = UIColor.blue.cgColor
-        view.layer.addSublayer(circleLayer)
-
-        let recongnizer = UIPanGestureRecognizer(target: self, action: #selector(handleTransformMovePanGesture(_:)))
-        view.addGestureRecognizer(recongnizer)
-        self.addSubview(view)
-
-        return view
-    }()
-
-    lazy var leftBottomView: UIView = {
-        let view = UIView(frame: CGRect(x: self.frame.width - self.lengthOfTouchSide, y: self.frame.height - self.lengthOfTouchSide, width: self.lengthOfTouchSide, height: self.lengthOfTouchSide))
-        view.backgroundColor = .clear
-        view.tag = TransformArea.leftBottom.rawValue
-
-        let circleLayer = CAShapeLayer()
-        let radius: CGFloat = 10.0
-        circleLayer.path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: view.frame.size), cornerRadius: radius).cgPath
-        circleLayer.position = CGPoint(x: 0, y: 0)
-        circleLayer.fillColor = UIColor.blue.cgColor
-        view.layer.addSublayer(circleLayer)
-
-        let recongnizer = UIPanGestureRecognizer(target: self, action: #selector(handleTransformMovePanGesture(_:)))
-        view.addGestureRecognizer(recongnizer)
-
-        return view
-    }()
-
-      override func draw(_ rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         super.draw(rect)
 
         let rect = rectangleRect(frame)
@@ -136,18 +107,13 @@ class RectangleView: UIView {
     }
 
     @objc private func handleMovePanGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
-        switch gestureRecognizer.state {
-        case .changed:
-            let point  = gestureRecognizer.translation(in: self)
-            let center = CGPoint(x: gestureRecognizer.view!.center.x + point.x, y: gestureRecognizer.view!.center.y + point.y)
-            gestureRecognizer.view!.center = center
-            gestureRecognizer.setTranslation(.zero, in: self)
-        default:
-            break
-        }
-    }
+        guard case .changed = gestureRecognizer.state,
+              let targetView = gestureRecognizer.view else { return }
 
-    var startTransform:CGAffineTransform!
+        let point = gestureRecognizer.translation(in: self)
+        targetView.center = CGPoint(x: targetView.center.x + point.x, y: targetView.center.y + point.y)
+        gestureRecognizer.setTranslation(.zero, in: self)
+    }
 
     func rectangleRect() -> CGRect {
         var rect = rectangleRect(frame)
@@ -157,19 +123,20 @@ class RectangleView: UIView {
     }
 
     private func rectangleRect(_ frame: CGRect) -> CGRect {
-        return CGRect(
-            x: merginOfRectangle,
-            y: merginOfRectangle,
-            width: frame.width - merginOfRectangle * 2,
-            height: frame.height - merginOfRectangle * 2
+        CGRect(
+            x: marginOfRectangle,
+            y: marginOfRectangle,
+            width: frame.width - marginOfRectangle * 2,
+            height: frame.height - marginOfRectangle * 2
         )
     }
 
     private func updateTransformView() {
         rightTopView.frame = CGRect(
-            x: frame.width - self.lengthOfTouchSide,
-            y: 0.0, width: self.lengthOfTouchSide,
-            height: self.lengthOfTouchSide
+            x: frame.width - lengthOfTouchSide,
+            y: 0,
+            width: lengthOfTouchSide,
+            height: lengthOfTouchSide
         )
         leftBottomView.frame = CGRect(
             x: frame.width - lengthOfTouchSide,
@@ -178,7 +145,7 @@ class RectangleView: UIView {
             height: lengthOfTouchSide
         )
         rightBottomView.frame = CGRect(
-            x: 0.0,
+            x: 0,
             y: frame.height - lengthOfTouchSide,
             width: lengthOfTouchSide,
             height: lengthOfTouchSide
@@ -186,43 +153,31 @@ class RectangleView: UIView {
     }
 
     @objc private func handleTransformMovePanGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
-        switch gestureRecognizer.state {
-        case .changed:
-            let point  = gestureRecognizer.translation(in: self)
+        guard case .changed = gestureRecognizer.state,
+              let targetView = gestureRecognizer.view,
+              let transformArea = TransformArea(rawValue: targetView.tag) else { return }
 
-            guard let targetView = gestureRecognizer.view else { return }
-            guard let transformArea = TransformArea(rawValue: targetView.tag) else { return }
+        let point = gestureRecognizer.translation(in: self)
+        var originalFrame = frame
 
-            switch transformArea {
-            case .leftTop:
-                var originalFrame = frame
-                originalFrame.origin.x += point.x
-                originalFrame.origin.y += point.y
-                originalFrame.size = CGSize(width: frame.width - point.x, height: frame.height - point.y)
-                frame = originalFrame
-            case .rightTop:
-                var originalFrame = frame
-                originalFrame.origin.y += point.y
-                originalFrame.size = CGSize(width: frame.width + point.x, height: frame.height - point.y)
-                frame = originalFrame
-            case .rightBottom:
-                var originalFrame = frame
-                originalFrame.origin.x += point.x
-                originalFrame.size = CGSize(width: frame.width - point.x, height: frame.height + point.y)
-                frame = originalFrame
-            case .leftBottom:
-                var originalFrame = frame
-                originalFrame.size = CGSize(width: frame.width + point.x, height: frame.height + point.y)
-                frame = originalFrame
-            }
-
-            let rect = rectangleRect(frame)
-            rectangleLayer.path = UIBezierPath(rect: rect).cgPath
-            updateTransformView()
-
-            gestureRecognizer.setTranslation(.zero, in: self)
-        default:
-            break
+        switch transformArea {
+        case .leftTop:
+            originalFrame.origin.x += point.x
+            originalFrame.origin.y += point.y
+            originalFrame.size = CGSize(width: frame.width - point.x, height: frame.height - point.y)
+        case .rightTop:
+            originalFrame.origin.y += point.y
+            originalFrame.size = CGSize(width: frame.width + point.x, height: frame.height - point.y)
+        case .rightBottom:
+            originalFrame.origin.x += point.x
+            originalFrame.size = CGSize(width: frame.width - point.x, height: frame.height + point.y)
+        case .leftBottom:
+            originalFrame.size = CGSize(width: frame.width + point.x, height: frame.height + point.y)
         }
+
+        frame = originalFrame
+        rectangleLayer.path = UIBezierPath(rect: rectangleRect(frame)).cgPath
+        updateTransformView()
+        gestureRecognizer.setTranslation(.zero, in: self)
     }
 }

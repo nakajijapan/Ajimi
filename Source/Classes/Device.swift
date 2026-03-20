@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import SystemConfiguration
 
 struct Device {
     static var all: [String: Any] {
@@ -20,15 +19,14 @@ struct Device {
         let height = String(Int(UIScreen.main.bounds.size.height))
         details["Device"] = UIDevice.modelName()
         details["Screen"] = "\(width) x \(height)"
-        details["Uptime"] = String(String(Int(ProcessInfo().systemUptime) / 60) + " mins")
+        details["Uptime"] = "\(Int(ProcessInfo.processInfo.systemUptime) / 60) mins"
 
         if let timezone = TimeZone.current.abbreviation() {
             details["Timezone"] = timezone
         }
-        details["Language"] = NSLocale.preferredLanguages[0]
+        details["Language"] = Locale.preferredLanguages.first ?? "unknown"
         return details
     }
-
 }
 
 extension UIDevice {
@@ -36,11 +34,9 @@ extension UIDevice {
         var systemInfo = utsname()
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
+        return machineMirror.children.reduce("") { identifier, element in
             guard let value = element.value as? Int8, value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
-
-        return identifier
     }
 }

@@ -8,18 +8,33 @@
 
 import Foundation
 
-enum Result<T> {
-    case success(T)
-    case failure(Error)
+enum ReporterError: LocalizedError {
+    case networkError(String)
+    case gitHubSaveError(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .networkError(let message):
+            return "Network error: \(message)"
+        case .gitHubSaveError(let message):
+            return "GitHub save error: \(message)"
+        }
+    }
 }
 
-enum ReporterError: Error {
-    case NetworkError(String)
-    case GitHubSaveError(String)
-}
+enum ImageUploaderError: LocalizedError {
+    case requestParseError
+    case uploadError(String)
+    case urlCreateError
 
-enum ImageUploderError: Error {
-    case RequestParseError()
-    case UploadError(String)
-    case URLCreateError()
+    var errorDescription: String? {
+        switch self {
+        case .requestParseError:
+            return "Failed to parse upload request"
+        case .uploadError(let message):
+            return "Upload error: \(message)"
+        case .urlCreateError:
+            return "Failed to create URL from response"
+        }
+    }
 }

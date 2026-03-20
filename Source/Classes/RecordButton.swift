@@ -3,70 +3,70 @@
 //  Ajimi
 //
 //  Created by daichi-nakajima on 2017/07/23.
-//  Copyright © 2017年 nakajijapan. All rights reserved.
+//  Copyright © 2017 nakajijapan. All rights reserved.
 //
 
 import UIKit
 
-class RecordButton: UIButton {
+final class RecordButton: UIButton {
 
-    private var progressLayer: CAShapeLayer!
+    private var progressLayer: CAShapeLayer?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
     }
 
-    public required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        backgroundColor = UIColor.clear
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        backgroundColor = .clear
     }
 
-    public override func draw(_ rect: CGRect) {
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         createProgressLayer()
     }
 
     private func createProgressLayer() {
-        let startAngle = -Double.pi / 2.0
-        let endAngle = Double.pi + 1.5
+        let startAngle = -CGFloat.pi / 2.0
+        let endAngle = CGFloat.pi + 1.5
         let centerPoint = CGPoint(x: frame.width / 2, y: frame.height / 2)
 
-        progressLayer = CAShapeLayer()
+        let layer = CAShapeLayer()
         let bezierPath = UIBezierPath(
             arcCenter: centerPoint,
             radius: 25.0,
-            startAngle: CGFloat(startAngle),
-            endAngle: CGFloat(endAngle), clockwise: true
+            startAngle: startAngle,
+            endAngle: endAngle,
+            clockwise: true
         )
-        progressLayer.path = bezierPath.cgPath
-        progressLayer.backgroundColor = UIColor.clear.cgColor
-        progressLayer.fillColor = UIColor.clear.cgColor
-        progressLayer.strokeColor = UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 0.6).cgColor
-        progressLayer.lineWidth = 4.0
-        progressLayer.strokeStart = 0.0
-        progressLayer.strokeEnd = 0.0
-        progressLayer.lineCap = kCALineCapRound
-        layer.addSublayer(progressLayer)
+        layer.path = bezierPath.cgPath
+        layer.backgroundColor = UIColor.clear.cgColor
+        layer.fillColor = UIColor.clear.cgColor
+        layer.strokeColor = UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 0.6).cgColor
+        layer.lineWidth = 4.0
+        layer.strokeStart = 0.0
+        layer.strokeEnd = 0.0
+        layer.lineCap = .round
+        self.layer.addSublayer(layer)
+        progressLayer = layer
     }
 
     func reset() {
-        progressLayer.removeFromSuperlayer()
+        progressLayer?.removeFromSuperlayer()
+        progressLayer = nil
         setNeedsDisplay()
     }
 
     func animateCurveToProgress(progress: Float) {
-
-        if progressLayer == nil {
-            return
-        }
+        guard let progressLayer else { return }
 
         let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = NSNumber(value: Float(progressLayer.strokeEnd))
-        animation.toValue = NSNumber(value: progress)
+        animation.fromValue = progressLayer.strokeEnd
+        animation.toValue = progress
         animation.duration = 0.05
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = .forwards
         progressLayer.strokeEnd = CGFloat(progress)
         progressLayer.add(animation, forKey: "strokeEnd")
     }
-
 }

@@ -8,81 +8,75 @@
 
 import UIKit
 
-public struct AjimiOptions {
+public struct AjimiOptions: Sendable {
     public let imageUploadURL: URL
     public let imageUploadKey: String?
     public let github: GitHubOptions
 
-    public init(githubBasePath: String, githubAccessToken: String, githubUser: String, githubRepo: String, imageUploadURL: URL, imageUploadKey: String?) {
-
+    public init(
+        githubBasePath: String,
+        githubAccessToken: String,
+        githubUser: String,
+        githubRepo: String,
+        imageUploadURL: URL,
+        imageUploadKey: String?
+    ) {
         github = GitHubOptions(
             basePath: githubBasePath,
             accessToken: githubAccessToken,
             user: githubUser,
             repo: githubRepo
         )
-
         self.imageUploadURL = imageUploadURL
         self.imageUploadKey = imageUploadKey
     }
 
-    public struct GitHubOptions {
+    public struct GitHubOptions: Sendable {
         let basePath: String
         let accessToken: String
         let user: String
         let repo: String
     }
-
 }
 
-public class Ajimi: NSObject {
+@MainActor
+public final class Ajimi {
 
-    fileprivate static var AssocKeyWindow: UInt8 = 0
+    private static var overlayWindow: Window?
 
-    class var targetWindow: UIWindow {
-        let windows = UIApplication.shared.windows.filter { !($0 is Window) }
-        guard let window = windows.first else { fatalError("invalid window") }
-        return window
+    static var targetWindow: UIWindow? {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
+            .first { !($0 is Window) }
     }
 
-    class var window: Window {
-        let windows = UIApplication.shared.windows.filter { $0 is Window }
-        guard let window = windows.first as? Window else { fatalError("invalid window") }
-        return window
+    static var window: Window? {
+        overlayWindow
     }
 
-    public class func show(_ options: AjimiOptions) {
-        let application = UIApplication.shared
-        if objc_getAssociatedObject(application, &Ajimi.AssocKeyWindow) == nil {
+    public static func show(_ options: AjimiOptions) {
+        guard overlayWindow == nil else { return }
 
-            let window = Window(frame: UIScreen.main.bounds)
-            window.options = options
-            window.backgroundColor = UIColor.clear
-            window.rootViewController = TopViewController(nibName: nil, bundle: nil)
-            window.windowLevel = UIWindowLevelNormal + 20.0
-            window.makeKeyAndVisible()
+        guard let windowScene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first else { return }
 
-            objc_setAssociatedObject(
-                application,
-                &Ajimi.AssocKeyWindow,
-                window,
-                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-            )
-        }
+        let window = Window(windowScene: windowScene)
+        window.options = options
+        window.backgroundColor = .clear
+        window.rootViewController = TopViewController(nibName: nil, bundle: nil)
+        window.windowLevel = .normal + 20.0
+        window.makeKeyAndVisible()
+
+        overlayWindow = window
     }
 
-    public class func hide() {
-        let application = UIApplication.shared
-        if let window = objc_getAssociatedObject(application, &Ajimi.AssocKeyWindow) as? UIWindow {
-            window.rootViewController!.view.removeFromSuperview()
-            window.rootViewController = nil
-
-            objc_setAssociatedObject(
-                application,
-                &Ajimi.AssocKeyWindow,
-                nil,
-                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-            )
-        }
+    public static func hide() {
+        guard let window = overlayWindow else { return }
+        window.rootViewController?.view.removeFromSuperview()
+        window.rootViewController = nil
+        window.isHidden = true
+        overlayWindow = nil
     }
 }

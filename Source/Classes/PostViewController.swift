@@ -8,45 +8,53 @@
 
 import UIKit
 
-protocol PostViewControllerProtocol: class {
+protocol PostViewControllerProtocol: AnyObject {
     var textField: UITextField { get }
     var textView: UITextView { get }
 }
+
 extension PostViewControllerProtocol where Self: UIViewController {
-    func showAlertContrller(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { _ in
-            self.dismiss(animated: true) { }
-        }))
+
+    func showAlertController(title: String, message: String) {
+        let showAlert = {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                self.dismiss(animated: true)
+            })
+            self.present(alert, animated: true)
+        }
 
         if Thread.isMainThread {
-            self.present(alert, animated: true) { }
+            showAlert()
         } else {
-            DispatchQueue.main.sync {
-                self.present(alert, animated: true) { }
+            DispatchQueue.main.async {
+                showAlert()
             }
         }
     }
 
     func reportIssue(imageData: Data) {
-
-        let window = Ajimi.window
+        guard let window = Ajimi.window else { return }
         let reporter = Reporter(options: window.options)
         let title = textField.text ?? ""
         let body = textView.text ?? ""
 
-        reporter.submit(title: title, body: body, screenshotData: imageData) { result in
-            switch result {
-            case .success:
-                self.showAlertContrller(title: "Success", message: "Posted.")
-            case .failure(let error):
-                self.showAlertContrller(title: "Error", message: error.localizedDescription)
+        Task {
+            do {
+                try await reporter.submit(title: title, body: body, screenshotData: imageData)
+                await MainActor.run {
+                    showAlertController(title: "Success", message: "Posted.")
+                }
+            } catch {
+                await MainActor.run {
+                    showAlertController(title: "Error", message: error.localizedDescription)
+                }
             }
         }
     }
 }
 
-class PostViewController: UIViewController, PostViewControllerProtocol {
+final class PostViewController: UIViewController, PostViewControllerProtocol {
 
     let image: UIImage
     let textField = UITextField(frame: .zero)
@@ -57,7 +65,7 @@ class PostViewController: UIViewController, PostViewControllerProtocol {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -66,45 +74,53 @@ class PostViewController: UIViewController, PostViewControllerProtocol {
 
         view.backgroundColor = .white
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightBarButtonItemDidTap(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Send", style: .plain, target: self, action: #selector(rightBarButtonItemDidTap(_:))
+        )
 
         let imageView = UIImageView(frame: .zero)
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
-
+        imageView.backgroundColor = .gray
         view.addSubview(imageView)
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 64).isActive = true
-        imageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        imageView.backgroundColor = .gray
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 100),
+            imageView.heightAnchor.constraint(equalToConstant: 200),
+        ])
+
         view.addSubview(textField)
-
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.topAnchor.constraint(equalTo: view.topAnchor, constant: 64 + 8).isActive = true
-        textField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
-        textField.rightAnchor.constraint(equalTo: imageView.leftAnchor, constant: -8).isActive = true
-        textField.heightAnchor.constraint(equalToConstant: 44).isActive = true
         textField.placeholder = "title"
-        textField.borderStyle = UITextBorderStyle.roundedRect
-        view.addSubview(textView)
+        textField.borderStyle = .roundedRect
+        NSLayoutConstraint.activate([
+            textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            textField.trailingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: -8),
+            textField.heightAnchor.constraint(equalToConstant: 44),
+        ])
 
+        view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8).isActive = true
-        textView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
-        textView.rightAnchor.constraint(equalTo: imageView.leftAnchor, constant: -8).isActive = true
-        textView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         textView.layer.borderWidth = 1.0
         textView.layer.cornerRadius = 6.0
-        textView.layer.borderColor = UIColor(red: 229/255.0, green: 229/255.0, blue: 229/255, alpha: 1.0).cgColor
+        textView.layer.borderColor = UIColor(red: 229/255.0, green: 229/255.0, blue: 229/255.0, alpha: 1.0).cgColor
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8),
+            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            textView.trailingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: -8),
+            textView.heightAnchor.constraint(equalToConstant: 200),
+        ])
+
         textField.becomeFirstResponder()
     }
 
-    func rightBarButtonItemDidTap(_ button: UIBarButtonItem) {
-        guard let imageData = UIImagePNGRepresentation(image) else {
-            showAlertContrller(title: "Error", message: "can not create UIImagePNGRepresentation")
+    @objc private func rightBarButtonItemDidTap(_ button: UIBarButtonItem) {
+        guard let imageData = image.pngData() else {
+            showAlertController(title: "Error", message: "Cannot create PNG data from image")
             return
         }
         reportIssue(imageData: imageData)

@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Ajimi"
-  s.version          = "0.10.3"
+  s.version          = "1.0.0"
   s.summary          = "Ajimi means tasting. In Japanese, 味見. Ajimi is the feedback tool, which anyone can easily feedback to project team any time."
   s.homepage         = "https://github.com/nakajijapan/Ajimi"
   s.license          = 'MIT'
@@ -17,7 +17,8 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/nakajijapan/Ajimi.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/nakajijapan'
 
-  s.platform     = :ios, '9.0'
+  s.platform     = :ios, '15.0'
+  s.swift_version = '5.9'
   s.requires_arc = true
 
   s.source_files = 'Source/Classes/**/*'

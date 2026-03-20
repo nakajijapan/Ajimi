@@ -8,128 +8,112 @@
 
 import UIKit
 
-class Window: UIWindow {
+final class Window: UIWindow {
 
     var options: AjimiOptions!
-    fileprivate let snapshotButton = UIButton(type: .system)
-    fileprivate let recordButton = RecordButton(type: .system)
-    fileprivate let stackView = UIStackView(frame: .zero)
+    private let snapshotButton = UIButton(type: .system)
+    private let recordButton = RecordButton(type: .system)
+    private let stackView = UIStackView(frame: .zero)
 
     override var rootViewController: UIViewController? {
         didSet {
-            if let TopViewController = rootViewController as? TopViewController {
+            guard let topViewController = rootViewController as? TopViewController else { return }
 
-                let cameraPath = resourceBundle().path(forResource: "camera", ofType: "png")!
-                let cameraImage = UIImage(contentsOfFile: cameraPath)
-                snapshotButton.setImage(cameraImage, for: .normal)
-                snapshotButton.addTarget(self,
-                                 action: #selector(snapshotButtonDidTap(_:)),
-                                 for: .touchUpInside)
+            let cameraImage = UIImage(named: "camera", in: resourceBundle(), compatibleWith: nil)
+            snapshotButton.setImage(cameraImage, for: .normal)
+            snapshotButton.addTarget(self, action: #selector(snapshotButtonDidTap(_:)), for: .touchUpInside)
 
-                let videoPath = resourceBundle().path(forResource: "video", ofType: "png")!
-                let videoImage = UIImage(contentsOfFile: videoPath)
+            let videoImage = UIImage(named: "video", in: resourceBundle(), compatibleWith: nil)
+            recordButton.setImage(videoImage, for: .normal)
+            recordButton.setTitleColor(.black, for: .normal)
+            recordButton.addTarget(self, action: #selector(recordButtonDidTap(_:)), for: .touchUpInside)
 
-                recordButton.setImage(videoImage, for: .normal)
-                recordButton.setTitleColor(.black, for: .normal)
-                recordButton.addTarget(self,
-                                 action: #selector(recordButtonDidTap(_:)),
-                                 for: .touchUpInside)
+            stackView.frame = CGRect(
+                x: 0.0,
+                y: bounds.height * 0.3,
+                width: (cameraImage?.size.width ?? 44) + 8,
+                height: (videoImage?.size.height ?? 44) * 2.0
+            )
 
-                stackView.frame = CGRect(
-                    x: 0.0,
-                    y: self.bounds.height * 0.3,
-                    width: cameraImage!.size.width + 8,
-                    height: videoImage!.size.height * 2.0
-                )
+            stackView.alignment = .center
+            stackView.axis = .vertical
+            stackView.addArrangedSubview(snapshotButton)
+            stackView.addArrangedSubview(recordButton)
+            addSubview(stackView)
 
-                stackView.alignment = UIStackViewAlignment.center
-                stackView.axis = UILayoutConstraintAxis.vertical
-                stackView.addArrangedSubview(snapshotButton)
-                stackView.addArrangedSubview(recordButton)
-                self.addSubview(stackView)
-                let panGestureRecognizer = UIPanGestureRecognizer(
-                    target: rootViewController,
-                    action: #selector(TopViewController.handlePanGesture(_:)))
-                stackView.addGestureRecognizer(panGestureRecognizer)
-            }
+            let panGestureRecognizer = UIPanGestureRecognizer(
+                target: topViewController,
+                action: #selector(TopViewController.handlePanGesture(_:))
+            )
+            stackView.addGestureRecognizer(panGestureRecognizer)
         }
     }
 
     private func resourceBundle() -> Bundle {
+        #if SWIFT_PACKAGE
+        return Bundle.module
+        #else
         let bundlePath = Bundle.main.path(
             forResource: "Ajimi",
             ofType: "bundle",
             inDirectory: "Frameworks/Ajimi.framework"
         )
-
-        if bundlePath != nil {
-            return Bundle(path: bundlePath!)!
+        if let bundlePath {
+            return Bundle(path: bundlePath) ?? Bundle(for: type(of: self))
         }
-
         return Bundle(for: type(of: self))
+        #endif
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let view = super.hitTest(point, with: event)
-        if view === self {
-            return nil
-        }
-
-        return view
+        return view === self ? nil : view
     }
-
 }
 
 // MARK: - Button Actions
 extension Window {
 
-    func snapshotButtonDidTap(_ button: UIButton) {
+    @objc private func snapshotButtonDidTap(_ button: UIButton) {
         button.alpha = 1.0
 
-        guard let image = takePhoto() else {
-            return
-        }
+        guard let image = takePhoto() else { return }
 
         let viewController = ImageEditViewController(image: image)
         let navigationController = UINavigationController(rootViewController: viewController)
-        rootViewController?.present(navigationController, animated: true) { }
+        navigationController.modalPresentationStyle = .fullScreen
+        rootViewController?.present(navigationController, animated: true)
     }
 
     private func takePhoto() -> UIImage? {
-        let window = Ajimi.targetWindow
-        UIGraphicsBeginImageContext(window.bounds.size)
-        window.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return image
+        guard let window = Ajimi.targetWindow else { return nil }
+        let renderer = UIGraphicsImageRenderer(bounds: window.bounds)
+        return renderer.image { _ in
+            window.layer.render(in: UIGraphicsGetCurrentContext()!)
+        }
     }
 
-    func recordButtonDidTap(_ button: UIButton) {
+    @objc private func recordButtonDidTap(_ button: UIButton) {
+        let outputPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("ajimi.gif")
 
-        let outputPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last!.appending("/ajimi.gif")
-        if FileManager.default.fileExists(atPath: outputPath) {
-            do {
-                try FileManager.default.removeItem(atPath: outputPath)
-            } catch {
-                fatalError("failed to delete the file \(outputPath)")
-            }
-        }
+        try? FileManager.default.removeItem(at: outputPath)
 
         let screenRecorder = ScreenRecorder()
-        screenRecorder.videoURL = URL(fileURLWithPath: outputPath)
+        screenRecorder.videoURL = outputPath
         screenRecorder.startRecording()
         screenRecorder.delegate = self
 
         DispatchQueue.main.asyncAfter(deadline: .now() + screenRecorder.recordTime) {
             screenRecorder.stopRecording {
-                let viewController = PostGIFViewController(imageURL: screenRecorder.videoURL!)
+                guard let videoURL = screenRecorder.videoURL else { return }
+                let viewController = PostGIFViewController(imageURL: videoURL)
                 let navigationController = UINavigationController(rootViewController: viewController)
-                self.rootViewController?.present(navigationController, animated: true) { }
+                navigationController.modalPresentationStyle = .fullScreen
+                self.rootViewController?.present(navigationController, animated: true)
             }
         }
     }
-
 }
 
 // MARK: - ScreenRecorderDelegate
@@ -141,5 +125,4 @@ extension Window: ScreenRecorderDelegate {
             recordButton.reset()
         }
     }
-
 }

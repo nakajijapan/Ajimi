@@ -9,51 +9,52 @@
 import Foundation
 import UIKit
 import ImageIO
-import MobileCoreServices
+import UniformTypeIdentifiers
 
-protocol ScreenRecorderDelegate: class {
+protocol ScreenRecorderDelegate: AnyObject {
     func screenRecordDidRefresh(_ recorder: ScreenRecorder, progress: Double)
 }
 
-class ScreenRecorder {
+final class ScreenRecorder {
     var isRecording = false
-    var videoURL: URL? {
-        didSet  {
-            debugPrint(videoURL ?? "")
-        }
-    }
-    private var displayLink: CADisplayLink!
-    private var keyWindow = Ajimi.targetWindow
+    var videoURL: URL?
     var recordTime: CFTimeInterval = 5.0
     var images: [UIImage] = []
-    var startTime: CFTimeInterval = 0.0
     weak var delegate: ScreenRecorderDelegate?
 
-    public func startRecording() {
-        if !isRecording {
-            isRecording = true
-            startTime = CACurrentMediaTime()
-            displayLink = CADisplayLink(target: self, selector: #selector(displayDidRefresh(_:)))
-            displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
-        }
-    }
-    public func stopRecording(completion: @escaping () -> Void) {
-        if isRecording {
-            isRecording = false
-            displayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
-            completeRecordingSession(completion: completion)
-        }
+    private var displayLink: CADisplayLink?
+    private var keyWindow: UIWindow?
+    private var startTime: CFTimeInterval = 0.0
+
+    func startRecording() {
+        guard !isRecording else { return }
+        isRecording = true
+        keyWindow = Ajimi.targetWindow
+        startTime = CACurrentMediaTime()
+        let link = CADisplayLink(target: self, selector: #selector(displayDidRefresh(_:)))
+        link.add(to: .main, forMode: .common)
+        displayLink = link
     }
 
-    @objc func displayDidRefresh(_ sender: CADisplayLink) {
-        UIGraphicsBeginImageContextWithOptions(keyWindow.bounds.size, true, 0)
-        keyWindow.drawHierarchy(in: keyWindow.bounds, afterScreenUpdates: false)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+    func stopRecording(completion: @escaping () -> Void) {
+        guard isRecording else { return }
+        isRecording = false
+        displayLink?.remove(from: .main, forMode: .common)
+        displayLink = nil
+        completeRecordingSession(completion: completion)
+    }
 
-        let resizedImage = image!.resize(size: CGSize(width: image!.size.width / 2.0, height: image!.size.height / 2.0))!
+    @objc private func displayDidRefresh(_ sender: CADisplayLink) {
+        guard let keyWindow else { return }
 
-        images.append(resizedImage)
+        let renderer = UIGraphicsImageRenderer(bounds: keyWindow.bounds)
+        let image = renderer.image { context in
+            keyWindow.drawHierarchy(in: keyWindow.bounds, afterScreenUpdates: false)
+        }
+
+        if let resizedImage = image.resize(size: CGSize(width: image.size.width / 2.0, height: image.size.height / 2.0)) {
+            images.append(resizedImage)
+        }
 
         let current = (CACurrentMediaTime() - startTime) / recordTime
         delegate?.screenRecordDidRefresh(self, progress: current)
@@ -63,7 +64,7 @@ class ScreenRecorder {
         images = []
     }
 
-    func completeRecordingSession(completion: @escaping () -> Void) {
+    private func completeRecordingSession(completion: @escaping () -> Void) {
         createGIF()
         DispatchQueue.main.async {
             completion()
@@ -71,38 +72,44 @@ class ScreenRecorder {
         }
     }
 
-    func createGIF() {
+    private func createGIF() {
+        guard !images.isEmpty, let destinationFileURL = videoURL else { return }
+
         let loopCount = 0
         let frameCount = images.count
-        let delayTime = recordTime / Double(images.count)
-        let destinationFileURL = videoURL!
+        let delayTime = recordTime / Double(frameCount)
 
-        let fileProperties = [
+        let fileProperties: [String: Any] = [
             kCGImagePropertyGIFDictionary as String: [
-                kCGImagePropertyGIFLoopCount as String: NSNumber(value: Int32(loopCount) as Int32)
-            ],
-            kCGImagePropertyGIFHasGlobalColorMap as String: NSValue(nonretainedObject: true)
-            ] as [String : Any]
-
-        let frameProperties = [
-            kCGImagePropertyGIFDictionary as String:[
-                kCGImagePropertyGIFDelayTime as String:delayTime
+                kCGImagePropertyGIFLoopCount as String: loopCount
             ]
         ]
 
-        guard let destination = CGImageDestinationCreateWithURL(destinationFileURL as CFURL, kUTTypeGIF, frameCount, nil) else {
+        let frameProperties: [String: Any] = [
+            kCGImagePropertyGIFDictionary as String: [
+                kCGImagePropertyGIFDelayTime as String: delayTime
+            ]
+        ]
+
+        guard let destination = CGImageDestinationCreateWithURL(
+            destinationFileURL as CFURL,
+            UTType.gif.identifier as CFString,
+            frameCount,
+            nil
+        ) else {
             assertionFailure("dest not found = \(destinationFileURL.absoluteString)")
             return
         }
+
         CGImageDestinationSetProperties(destination, fileProperties as CFDictionary)
 
-        images.forEach { image in
-            CGImageDestinationAddImage(destination, image.cgImage!, frameProperties as CFDictionary)
+        for image in images {
+            guard let cgImage = image.cgImage else { continue }
+            CGImageDestinationAddImage(destination, cgImage, frameProperties as CFDictionary)
         }
 
         if !CGImageDestinationFinalize(destination) {
             assertionFailure("finalize error")
         }
     }
-
 }
