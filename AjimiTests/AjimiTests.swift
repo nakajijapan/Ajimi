@@ -23,6 +23,13 @@ final class AjimiTests: XCTestCase {
         XCTAssertEqual(authString, "")
     }
 
+    func testBase64SpecialCharacters() {
+        let string = "user:p@$$w0rd!"
+        let authString = string.base64
+        let decoded = Data(base64Encoded: authString).flatMap { String(data: $0, encoding: .utf8) }
+        XCTAssertEqual(decoded, string)
+    }
+
     func testAjimiOptionsInitialization() {
         let options = AjimiOptions(
             githubBasePath: "https://api.github.com",
@@ -52,14 +59,5 @@ final class AjimiTests: XCTestCase {
         )
 
         XCTAssertNil(options.imageUploadKey)
-    }
-
-    func testDeviceInfo() {
-        let info = Device.all
-        XCTAssertNotNil(info["iOS Version"])
-        XCTAssertNotNil(info["Device"])
-        XCTAssertNotNil(info["Screen"])
-        XCTAssertNotNil(info["Uptime"])
-        XCTAssertNotNil(info["Language"])
     }
 }

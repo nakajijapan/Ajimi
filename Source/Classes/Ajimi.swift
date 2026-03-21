@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 public struct AjimiOptions: Sendable {
     public let imageUploadURL: URL
@@ -42,17 +43,13 @@ public struct AjimiOptions: Sendable {
 @MainActor
 public final class Ajimi {
 
-    private static var overlayWindow: Window?
+    private static var overlayWindow: AjimiWindow?
 
     static var targetWindow: UIWindow? {
         UIApplication.shared.connectedScenes
             .compactMap { $0 as? UIWindowScene }
             .flatMap(\.windows)
-            .first { !($0 is Window) }
-    }
-
-    static var window: Window? {
-        overlayWindow
+            .first { !($0 is AjimiWindow) }
     }
 
     public static func show(_ options: AjimiOptions) {
@@ -62,10 +59,14 @@ public final class Ajimi {
             .compactMap({ $0 as? UIWindowScene })
             .first else { return }
 
-        let window = Window(windowScene: windowScene)
-        window.options = options
+        let state = AjimiState(options: options)
+        let overlayView = AjimiOverlayView(state: state)
+        let hostingController = UIHostingController(rootView: overlayView)
+        hostingController.view.backgroundColor = .clear
+
+        let window = AjimiWindow(windowScene: windowScene)
         window.backgroundColor = .clear
-        window.rootViewController = TopViewController(nibName: nil, bundle: nil)
+        window.rootViewController = hostingController
         window.windowLevel = .normal + 20.0
         window.makeKeyAndVisible()
 
@@ -74,9 +75,8 @@ public final class Ajimi {
 
     public static func hide() {
         guard let window = overlayWindow else { return }
-        window.rootViewController?.view.removeFromSuperview()
-        window.rootViewController = nil
         window.isHidden = true
+        window.rootViewController = nil
         overlayWindow = nil
     }
 }
