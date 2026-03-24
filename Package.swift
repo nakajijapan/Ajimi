@@ -12,19 +12,38 @@ let package = Package(
             name: "Ajimi",
             targets: ["Ajimi"]
         ),
+        .library(
+            name: "AjimiCore",
+            targets: ["AjimiCore"]
+        ),
     ],
     targets: [
         .target(
+            name: "AjimiCore",
+            path: "Source/Classes",
+            sources: [
+                "AjimiOptions.swift",
+                "String+Ajimi.swift",
+                "Error.swift",
+            ]
+        ),
+        .target(
             name: "Ajimi",
+            dependencies: ["AjimiCore"],
             path: "Source",
+            exclude: [
+                "Classes/AjimiOptions.swift",
+                "Classes/String+Ajimi.swift",
+                "Classes/Error.swift",
+            ],
             resources: [
                 .process("Assets")
             ]
         ),
         .testTarget(
-            name: "AjimiTests",
-            dependencies: ["Ajimi"],
-            path: "AjimiTests"
+            name: "AjimiCoreTests",
+            dependencies: ["AjimiCore"],
+            path: "AjimiCoreTests"
         ),
     ]
 )

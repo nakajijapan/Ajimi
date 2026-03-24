@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import AjimiCore
 
 @MainActor
 final class AjimiState: ObservableObject {

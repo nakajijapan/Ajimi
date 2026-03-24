@@ -8,37 +8,7 @@
 
 import UIKit
 import SwiftUI
-
-public struct AjimiOptions: Sendable {
-    public let imageUploadURL: URL
-    public let imageUploadKey: String?
-    public let github: GitHubOptions
-
-    public init(
-        githubBasePath: String,
-        githubAccessToken: String,
-        githubUser: String,
-        githubRepo: String,
-        imageUploadURL: URL,
-        imageUploadKey: String?
-    ) {
-        github = GitHubOptions(
-            basePath: githubBasePath,
-            accessToken: githubAccessToken,
-            user: githubUser,
-            repo: githubRepo
-        )
-        self.imageUploadURL = imageUploadURL
-        self.imageUploadKey = imageUploadKey
-    }
-
-    public struct GitHubOptions: Sendable {
-        let basePath: String
-        let accessToken: String
-        let user: String
-        let repo: String
-    }
-}
+import AjimiCore
 
 @MainActor
 public final class Ajimi {

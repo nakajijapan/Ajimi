@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AjimiCore
 
 protocol ImageUploaderProtocol: AnyObject {
     static func uploadImage(url: URL, key: String?, imageData: Data) async throws -> String

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AjimiCore
 
 final class Reporter {
 

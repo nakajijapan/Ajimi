@@ -1,0 +1,37 @@
+name: Test
+
+on:
+  push:
+    branches: [main, "claude/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  core-tests-linux:
+    name: AjimiCore Tests (Linux)
+    runs-on: ubuntu-latest
+    container: swift:5.9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build AjimiCore
+        run: swift build --target AjimiCore
+      - name: Run AjimiCoreTests
+        run: swift test --filter AjimiCoreTests
+
+  core-tests-macos:
+    name: AjimiCore Tests (macOS)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build AjimiCore
+        run: swift build --target AjimiCore
+      - name: Run AjimiCoreTests
+        run: swift test --filter AjimiCoreTests
+
+  full-build-ios:
+    name: Full Build (iOS)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Ajimi for iOS
+        run: xcodebuild build -scheme Ajimi -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' -skipPackagePluginValidation
